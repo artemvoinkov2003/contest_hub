@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Оценочный лист</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            padding: 30px;
+            background-color: #f5f7fa;
+        }
+        .evaluation-sheet { 
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #4a6fa5;
+        }
+        .title { 
+            font-size: 28px; 
+            font-weight: bold; 
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .subtitle { 
+            font-size: 18px; 
+            color: #4a6fa5;
+            margin: 8px 0;
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 30px 0;
+            font-size: 15px;
+            border: 2px solid #4a6fa5;
+        }
+        th { 
+            background: linear-gradient(to bottom, #4a6fa5, #3a5a80); 
+            color: white; 
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid #3a5a80;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+        td { 
+            border: 1px solid #ddd; 
+            padding: 10px 8px; 
+            text-align: center;
+            vertical-align: middle;
+        }
+        .criteria-row { 
+            background-color: #f0f7ff; 
+            font-weight: bold;
+        }
+        .total-row { 
+            background-color: #e8f4f8; 
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .summary-row { 
+            background-color: #fff8e1; 
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .participant-row:hover {
+            background-color: #f9f9f9;
+        }
+        .footer { 
+            margin-top: 40px; 
+            padding-top: 20px;
+            border-top: 2px solid #4a6fa5;
+        }
+        .experts-list {
+            font-size: 16px;
+            color: #555;
+        }
+        .experts-list ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+            display: none;
+        }
+        .notes-cell {
+            max-width: 200px;
+            min-width: 150px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="evaluation-sheet">
+        <div class="header">
+            <div class="title">ОЦЕНОЧНЫЙ ЛИСТ</div>
+            <div class="subtitle">Конкурс: {{contest_name}}</div>
+            <div class="subtitle" data-field="nomination">Номинация: {{nomination}}</div>
+            <div class="subtitle" data-field="current_date">Дата: {{current_date}}</div>
+        </div>
+        
+        <div class="empty-message" id="empty-table-message">
+            Данные для оценки отсутствуют
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">№</th>
+                    <th rowspan="2">ФИО участника</th>
+                    <th rowspan="2">Название работы</th>
+                    <th colspan="{{criteria_count}}">Критерии оценки</th>
+                    <th rowspan="2">Общий балл</th>
+                    <th rowspan="2">Примечания</th>
+                </tr>
+                <tr>
+                    {{#each criteria}}
+                    <th>{{name}}<br>(макс. {{max_score}})</th>
+                    {{/each}}
+                </tr>
+            </thead>
+            <tbody id="evaluations-table">
+                {{#each evaluations}}
+                <tr class="participant-row">
+                    <td>{{@index}}</td>
+                    <td>{{participant_name}}</td>
+                    <td>{{work_name}}</td>
+                    {{#each scores}}
+                    <td>{{score}}</td>
+                    {{/each}}
+                    <td class="total-row">{{total_score}}</td>
+                    <td class="notes-cell">{{notes}}</td>
+                </tr>
+                {{/each}}
+                <tr class="summary-row">
+                    <td colspan="3" style="text-align: right; font-weight: bold;">Средний балл:</td>
+                    {{#each average_scores}}
+                    <td>{{average}}</td>
+                    {{/each}}
+                    <td>{{total_average}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <div class="experts-list">
+                <p><strong>Эксперты:</strong></p>
+                <ul id="experts-list">
+                    {{#each experts}}
+                    <li>{{name}} - {{role}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Этот скрипт скроет пустые поля и таблицу если нет оценок
+        document.addEventListener('DOMContentLoaded', function() {
+            // Скрываем пустые поля в заголовке
+            const fields = document.querySelectorAll('[data-field]');
+            fields.forEach(field => {
+                const text = field.textContent;
+                if (text.includes('{{') && text.includes('}}') && 
+                    text.replace(/{{.*?}}/, '').trim() === '') {
+                    field.style.display = 'none';
+                }
+            });
+            
+            // Проверяем таблицу оценок
+            const table = document.querySelector('table');
+            const emptyMessage = document.getElementById('empty-table-message');
+            const evaluationsTable = document.getElementById('evaluations-table');
+            const expertsList = document.getElementById('experts-list');
+            
+            // Если таблица пустая или нет оценок
+            if (!evaluationsTable || evaluationsTable.textContent.includes('{{#each') || 
+                evaluationsTable.children.length === 0) {
+                table.style.display = 'none';
+                emptyMessage.style.display = 'block';
+            }
+            
+            // Проверяем список экспертов
+            if (expertsList && expertsList.textContent.includes('{{#each')) {
+                expertsList.parentElement.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

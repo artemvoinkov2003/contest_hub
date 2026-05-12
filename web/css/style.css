@@ -1,0 +1,207 @@
+/* Fonts */
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/Roboto-Italic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Base Styles */
+body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* CRITICAL: Application Form Protection - УСИЛЕННАЯ ЗАЩИТА */
+.application-create-page #application-form,
+.application-create-page #application-form *,
+.application-create-page .bg-blue-50,
+.application-create-page .bg-green-50, 
+.application-create-page .bg-orange-50,
+.application-create-page .file-upload-container,
+.application-create-page .bg-blue-50 *,
+.application-create-page .bg-green-50 *,
+.application-create-page .bg-orange-50 * {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+/* Protect all form elements on application page */
+body.application-create-page #application-form,
+body.application-create-page #application-form * {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+}
+
+/* Auth Page Animations - ONLY for login/register */
+#login-page .bg-white.rounded-2xl,
+#register-page .bg-white.rounded-2xl {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+}
+
+#login-page input,
+#login-page button[type="submit"],
+#login-page .flex.items-center,
+#login-page .relative,
+#login-page .text-center a,
+#login-page .grid,
+#login-page .space-y-6 > *,
+#login-page .space-y-5 > *,
+#register-page input,
+#register-page button[type="submit"],
+#register-page .flex.items-center,
+#register-page .relative,
+#register-page .text-center a,
+#register-page .grid,
+#register-page .space-y-6 > * {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* Mobile Sidebar */
+#mobile-sidebar {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* File upload styles */
+.file-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.hidden-file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.file-display {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.file-display:hover {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+.file-display.has-file {
+    border-color: #10b981;
+    background-color: #ecfdf5;
+    color: #065f46;
+    border-style: solid;
+}
+
+/* Button styles protection */
+#application-form button[type="submit"],
+#application-form a.btn {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+}
+
+/* Utility Classes */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-amp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Защита от скрытия админ-кнопок */
+a[href*="create"], a[href*="update"], a[href*="delete"],
+a[href*="block"], a[href*="unblock"] {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Защита контейнеров админ-панели */
+.bg-white.rounded-2xl,
+.max-w-7xl.mx-auto {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Запрет скрытия через CSS */
+.admin-protected {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Стили для печати */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+    }
+    
+    th, td {
+        border: 1px solid #000;
+        padding: 4px;
+    }
+    
+    h1, h2, h3 {
+        page-break-after: avoid;
+    }
+    
+    table, figure {
+        page-break-inside: avoid;
+    }
+}

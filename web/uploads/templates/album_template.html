@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Альбом работ</title>
+    <style>
+        body { 
+            font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f5f5f5;
+        }
+        .album-page { 
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 50px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .title { 
+            font-size: 36px; 
+            font-weight: bold; 
+            color: #4a6fa5; 
+            text-align: center; 
+            margin: 30px 0 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .subtitle { 
+            font-size: 22px; 
+            color: #666; 
+            text-align: center; 
+            margin: 10px 0 40px;
+        }
+        .participant { 
+            font-size: 32px; 
+            font-weight: bold; 
+            text-align: center; 
+            margin: 50px 0; 
+            color: #2c3e50;
+            padding: 20px;
+            border-top: 3px solid #e74c3c;
+            border-bottom: 3px solid #e74c3c;
+        }
+        .work-title { 
+            font-size: 28px; 
+            color: #333; 
+            text-align: center; 
+            margin: 30px 0; 
+            font-style: italic;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+        }
+        .details-container { 
+            font-size: 20px; 
+            margin: 30px 0; 
+            color: #555; 
+            text-align: center;
+            line-height: 1.8;
+        }
+        .detail-item {
+            margin: 10px 0;
+            display: block;
+        }
+        .certificate-info { 
+            margin: 40px auto; 
+            padding: 30px; 
+            border: 2px dashed #4a6fa5; 
+            border-radius: 15px;
+            max-width: 80%;
+            background-color: #f0f7ff;
+        }
+        .certificate-info h3 {
+            color: #4a6fa5;
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        .footer { 
+            margin-top: 80px; 
+            display: flex; 
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .signature { 
+            text-align: left;
+            width: 45%;
+        }
+        .signature p {
+            margin: 5px 0;
+        }
+        .signature-line {
+            margin-top: 50px;
+            border-top: 2px solid #333;
+            width: 250px;
+        }
+        .date { 
+            text-align: right;
+            width: 45%;
+            font-size: 18px;
+        }
+        .page-break { 
+            page-break-after: always;
+        }
+        .separator {
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #4a6fa5, transparent);
+            margin: 30px auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Первая страница -->
+    <div class="album-page">
+        <div class="title">АЛЬБОМ РАБОТ</div>
+        <div class="subtitle">{{contest_name}}</div>
+        <div class="subtitle">{{contest_date}}</div>
+        
+        <div class="separator"></div>
+        
+        <div class="participant">{{participant_name}}</div>
+        
+        <div class="work-title">"{{work_name}}"</div>
+        
+        <div class="details-container">
+            <div class="detail-item">Номинация: <strong>{{nomination}}</strong></div>
+            <div class="detail-item" data-field="age_category">Возрастная категория: <strong>{{age_category}}</strong></div>
+            <div class="detail-item" data-field="institution">Учреждение: <strong>{{institution}}</strong></div>
+            <div class="detail-item" data-field="leader">Руководитель: <strong>{{leader}}</strong></div>
+        </div>
+        
+        <div class="certificate-info">
+            <h3>РЕЗУЛЬТАТЫ УЧАСТИЯ:</h3>
+            <div class="detail-item" data-field="final_score">Итоговый балл: <strong>{{final_score}}</strong></div>
+            <div class="detail-item" data-field="place">Занятое место: <strong>{{place}}</strong></div>
+            <div class="detail-item" data-field="award_type">Награда: <strong>{{award_type}}</strong></div>
+        </div>
+        
+        <div class="details-container">
+            <p>Данный альбом подтверждает участие в конкурсе и содержит информацию о представленной работе.</p>
+        </div>
+        
+        <div class="footer">
+            <div class="signature">
+                <p>Директор конкурса</p>
+                <div class="signature-line"></div>
+                <p style="margin-top: 10px; font-size: 16px;">М.П.</p>
+            </div>
+            <div class="date">
+                <p>Дата выдачи:</p>
+                <p style="font-weight: bold; font-size: 20px; margin-top: 5px;">{{current_date}}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- Вторая страница -->
+    <div class="album-page">
+        <div class="title">ОПИСАНИЕ РАБОТЫ</div>
+        <div class="subtitle">"{{work_name}}"</div>
+        
+        <div class="separator"></div>
+        
+        <div class="details-container">
+            <p>Работа была представлена на конкурс "{{contest_name}}" в номинации "{{nomination}}".</p>
+            
+            <h3>Автор(ы) работы:</h3>
+            <p style="font-size: 24px; font-weight: bold; color: #2c3e50;">{{participant_name}}</p>
+            
+            <h3>Информация об авторе:</h3>
+            <div class="detail-item" data-field="institution">Образовательное учреждение: {{institution}}</div>
+            <div class="detail-item" data-field="leader">Руководитель проекта: {{leader}}</div>
+            
+            <h3>Краткое описание:</h3>
+            <p>Работа демонстрирует творческий подход и соответствует тематике конкурса. Представленная работа отражает индивидуальный стиль автора и уровень мастерства в выбранной номинации.</p>
+            
+            <h3>Результаты оценки:</h3>
+            <div class="detail-item" data-field="final_score">Средний балл экспертной комиссии: {{final_score}}</div>
+            <div class="detail-item" data-field="place">Место в конкурсе: {{place}}</div>
+            <div class="detail-item" data-field="award_type">Присвоенная награда: {{award_type}}</div>
+        </div>
+        
+        <div class="footer">
+            <div class="date">
+                <p>Дата составления: {{current_date}}</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Этот скрипт скроет пустые поля
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailItems = document.querySelectorAll('.detail-item');
+            detailItems.forEach(item => {
+                const text = item.textContent;
+                // Проверяем, содержит ли элемент только шаблонную переменную или пусто
+                if (text.includes('{{') && text.includes('}}') && 
+                    text.replace(/{{.*?}}/, '').trim() === '') {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Сертификат</title>
+    <style>
+        body { 
+            font-family: 'Times New Roman', serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f5f5f5;
+        }
+        .certificate { 
+            width: 210mm;
+            height: 297mm;
+            margin: 20px auto;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" opacity="0.05"><path d="M0,0 L400,400 M400,0 L0,400" stroke="%234a6fa5" stroke-width="2"/></svg>'), linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+            border: 20px double #4a6fa5;
+            padding: 60px;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 140px;
+            color: rgba(74, 111, 165, 0.08);
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 0;
+        }
+        .title { 
+            font-size: 52px; 
+            font-weight: bold; 
+            color: #4a6fa5; 
+            margin: 30px 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+        .subtitle { 
+            font-size: 24px; 
+            color: #666; 
+            margin: 10px 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .participant { 
+            font-size: 36px; 
+            font-weight: bold; 
+            margin: 60px 0; 
+            color: #2c3e50; 
+            padding: 20px;
+            border-bottom: 3px double #4a6fa5;
+            border-top: 3px double #4a6fa5;
+            position: relative;
+            z-index: 1;
+        }
+        .text { 
+            font-size: 22px; 
+            line-height: 1.8; 
+            margin: 30px 0; 
+            color: #444;
+            position: relative;
+            z-index: 1;
+        }
+        .details-container {
+            font-size: 20px;
+            margin: 30px 0;
+            color: #555;
+            line-height: 1.8;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .detail-item {
+            margin: 10px 0;
+            display: block;
+        }
+        .footer { 
+            margin-top: 80px; 
+            display: flex; 
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            z-index: 1;
+        }
+        .signature { 
+            text-align: left;
+            width: 45%;
+        }
+        .signature p {
+            margin: 5px 0;
+        }
+        .signature-line {
+            margin-top: 40px;
+            border-top: 2px solid #333;
+            width: 250px;
+        }
+        .date { 
+            text-align: right;
+            width: 45%;
+            font-size: 18px;
+        }
+        .stamp {
+            position: absolute;
+            bottom: 80px;
+            right: 80px;
+            width: 150px;
+            height: 150px;
+            border: 3px solid red;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: red;
+            transform: rotate(15deg);
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .stamp-content {
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .separator {
+            width: 70%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #4a6fa5, transparent);
+            margin: 25px auto;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate">
+        <div class="watermark">СЕРТИФИКАТ</div>
+        
+        <div class="title">СЕРТИФИКАТ</div>
+        <div class="subtitle">УЧАСТНИКА</div>
+        
+        <div class="subtitle">{{contest_name}}</div>
+        <div class="detail-item">{{contest_date}}</div>
+        
+        <div class="separator"></div>
+        
+        <div class="participant">{{participant_name}}</div>
+        
+        <div class="text">
+            награждается сертификатом за участие в конкурсе<br>
+            и представление работы<br>
+            <strong>"{{work_name}}"</strong><br>
+            в номинации <strong>{{nomination}}</strong>
+        </div>
+        
+        <div class="details-container">
+            <span class="detail-item" data-field="age_category">Возрастная категория: {{age_category}}</span>
+            <span class="detail-item" data-field="institution">Учреждение: {{institution}}</span>
+            <span class="detail-item" data-field="leader">Руководитель: {{leader}}</span>
+            <span class="detail-item" data-field="final_score">Итоговый балл: {{final_score}}</span>
+        </div>
+        
+        <div class="separator"></div>
+        
+        <div class="footer">
+            <div class="signature">
+                <p>Директор конкурса</p>
+                <div class="signature-line"></div>
+                <p style="margin-top: 10px; font-size: 16px;">М.П.</p>
+            </div>
+            <div class="date">
+                <p>Дата выдачи:</p>
+                <p style="font-weight: bold; font-size: 20px; margin-top: 5px;">{{current_date}}</p>
+            </div>
+        </div>
+        
+        <div class="stamp">
+            <div class="stamp-content">
+                ПЕЧАТЬ<br>КОНКУРСА
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Этот скрипт скроет пустые поля
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailItems = document.querySelectorAll('.detail-item');
+            detailItems.forEach(item => {
+                const text = item.textContent;
+                // Проверяем, содержит ли элемент только шаблонную переменную или пусто
+                if (text.includes('{{') && text.includes('}}') && 
+                    text.replace(/{{.*?}}/, '').trim() === '') {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
